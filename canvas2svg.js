@@ -563,7 +563,11 @@
      */
     ctx.prototype.lineTo = function(x, y){
         this.__currentPosition = {x: x, y: y};
-        this.__addPathCommand(format("L {x} {y}", {x:x, y:y}));
+        if (this.__currentDefaultPath.indexOf('M') > -1) {
+            this.__addPathCommand(format("L {x} {y}", {x:x, y:y}));
+        } else {
+            this.__addPathCommand(format("M {x} {y}", {x:x, y:y}));
+        }
     };
 
     /**
