@@ -2,7 +2,7 @@
   "name": "svgcanvas",
   "version": "1.1.0",
   "description": "svgcanvas",
-  "main": "canvas2svg.js",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },
