@@ -1,9 +1,8 @@
 {
-  "name": "canvas2svg",
-  "version": "1.0.19",
-  "description": "canvas2svg",
+  "name": "svgcanvas",
+  "version": "1.1.0",
+  "description": "svgcanvas",
   "main": "canvas2svg.js",
-  "homepage": "http://gliffy.github.io/canvas2svg/",
   "directories": {
     "test": "test"
   },
@@ -15,9 +14,8 @@
     "svg",
     "canvas2svg"
   ],
-  "author": "Kerry Liu",
+  "author": "Zeno Zeng",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "chai": "^2.1.1",
     "cheerio": "^0.19.0",
