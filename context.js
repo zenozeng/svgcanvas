@@ -473,6 +473,7 @@ module.exports = (function () {
     ctx.prototype.getSvg = function () {
         return this.__root;
     };
+
     /**
      * Will generate a group tag.
      */
@@ -484,6 +485,7 @@ module.exports = (function () {
         this.__currentElement = group;
         this.__stack.push(this.__getStyleState());
     };
+
     /**
      * Sets current element to parent, or just root if already root
      */
@@ -805,13 +807,9 @@ module.exports = (function () {
      */
     ctx.prototype.__clearCanvas = function () {
         var rootGroup = this.__root.childNodes[1];
-        var childNodes = rootGroup.childNodes;
-        for (var i = childNodes.length - 1; i >= 0; i--) {
-            if (childNodes[i]) {
-                rootGroup.removeChild(childNodes[i]);
-            }
-        }
-        this.__currentElement = rootGroup;
+        this.__root.removeChild(rootGroup);
+        this.__currentElement = this.__document.createElementNS("http://www.w3.org/2000/svg", "g");
+        this.__root.appendChild(this.__currentElement);
         //reset __groupStack as all the child group nodes are all removed.
         this.__groupStack = [];
     };
