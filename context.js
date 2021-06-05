@@ -754,6 +754,13 @@ module.exports = (function () {
      * adds a rectangle element
      */
     ctx.prototype.fillRect = function (x, y, width, height) {
+        let {a, b, c, d, e, f} = this.getTransform();
+        if (JSON.stringify([a, b, c, d, e, f]) === JSON.stringify([1, 0, 0, 1, 0, 0])) {
+            //clear entire canvas
+            if (x === 0 && y === 0 && width === this.width && height === this.height) {
+                this.__clearCanvas();
+            }
+        }
         var rect, parent;
         rect = this.__createElement("rect", {
             x : x,
