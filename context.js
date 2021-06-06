@@ -1,5 +1,5 @@
 /*!!
- *  SVGCanvas v1.1.0
+ *  SVGCanvas v2.0.0
  *  A low level canvas to SVG converter. Uses a mock canvas context to build an SVG document.
  *
  *  Licensed under the MIT license:
