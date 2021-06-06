@@ -1,14 +1,16 @@
 /*!!
- *  SVGCanvas v2.0.0
- *  A low level canvas to SVG converter. Uses a mock canvas context to build an SVG document.
+ *  SVGCanvas v2.0.1
+ *  Draw on SVG using Canvas's 2D Context API.
  *
  *  Licensed under the MIT license:
  *  http://www.opensource.org/licenses/mit-license.php
  *
  *  Author:
  *  Kerry Liu
+ *  Zeno Zeng
  *
  *  Copyright (c) 2014 Gliffy Inc.
+ *  Copyright (c) 2021 Zeno Zeng
  */
 
 module.exports = (function () {
