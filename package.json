@@ -2,12 +2,19 @@
   "name": "svgcanvas",
   "version": "2.0.1",
   "description": "svgcanvas",
-  "main": "index.js",
+  "main": "dist/svgcanvas.js",
+  "scripts": {
+    "build": "rollup index.js -o dist/svgcanvas.js -f cjs",
+    "prepublishOnly": "npm run build"
+  },
   "keywords": [
     "canvas",
     "svg",
     "canvas2svg"
   ],
   "author": "Zeno Zeng",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "rollup": "^2.51.1"
+  }
 }

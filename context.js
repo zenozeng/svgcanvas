@@ -13,7 +13,7 @@
  *  Copyright (c) 2021 Zeno Zeng
  */
 
-module.exports = (function () {
+export default (function () {
     "use strict";
 
     var STYLES, ctx, CanvasGradient, CanvasPattern, namedEntities;

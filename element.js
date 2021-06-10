@@ -1,4 +1,4 @@
-var Context = require('./context');
+import Context from './context';
 
 function SVGCanvasElement(options) {
 
@@ -126,4 +126,4 @@ SVGCanvasElement.prototype.getElement = function() {
     return this.wrapper;
 };
 
-module.exports = SVGCanvasElement;
+export default SVGCanvasElement;
