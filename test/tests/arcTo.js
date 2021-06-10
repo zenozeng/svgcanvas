@@ -1,4 +1,4 @@
-window.C2S_EXAMPLES['arcTo'] = function (ctx) {
+export default function arcTo(ctx) {
     ctx.beginPath();
     ctx.moveTo(150, 20);
     ctx.arcTo(150, 100, 50, 20, 30);

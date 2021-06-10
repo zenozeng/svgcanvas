@@ -1,4 +1,4 @@
-window.C2S_EXAMPLES['tiger'] = function(ctx) {
+export default function tiger(ctx) {
     ctx.save();
     ctx.strokeStyle = 'rgba(0,0,0,0)';
     ctx.lineCap = 'butt';

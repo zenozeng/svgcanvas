@@ -1,4 +1,4 @@
-window.C2S_EXAMPLES['transform'] = function(ctx) {
+export default function transform(ctx) {
     // case 1
     ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
     ctx.setTransform(1,1,0,1,0,0);

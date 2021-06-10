@@ -1,4 +1,4 @@
-window.C2S_EXAMPLES['linecap'] = function(ctx) {
+export default function linecap(ctx) {
     var lineCap = ['butt','round','square'];
 
     // Draw guides
@@ -12,7 +12,7 @@ window.C2S_EXAMPLES['linecap'] = function(ctx) {
 
     // Draw lines
     ctx.strokeStyle = 'black';
-    for (var i=0;i<lineCap.length;i++){
+    for (let i=0;i<lineCap.length;i++){
         ctx.lineWidth = 15;
         ctx.lineCap = lineCap[i];
         ctx.beginPath();

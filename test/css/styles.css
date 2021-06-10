@@ -1,0 +1,40 @@
+body {
+    padding: 50px;
+}
+
+.example {
+    margin-bottom: 50px;
+}
+
+h2 {
+    font-weight: normal;
+}
+
+canvas, svg {
+    width: 500px;
+    height: 500px;
+    border: 1px solid #ccc;
+    margin-right: 50px;
+}
+
+.canvas, .svg {
+    display: inline-block;
+}
+
+.svg::after, .canvas::after {
+    display: block;
+    position: absolute;
+    width: 500px;
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.canvas::after {
+    content: 'Canvas';
+}
+
+.svg::after {
+    content: 'SVG';
+}
+

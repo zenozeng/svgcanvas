@@ -1,7 +1,5 @@
-const Context = require('./context');
-const Element = require('./element');
+import Context from './context';
+import Element from './element';
 
-module.exports = {
-    Context,
-    Element,
-}
+export {Context};
+export {Element};

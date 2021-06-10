@@ -5,7 +5,7 @@ A maintained fork of [gliffy's canvas2svg](https://github.com/gliffy/canvas2svg)
 
 ## Demo
 
-http://zenozeng.github.io/canvas2svg/test/playground.html
+https://zenozeng.github.io/svgcanvas/test/
 
 ## How it works
 We create a mock 2d canvas context. Use the canvas context like you would on a normal canvas. As you call methods, we 

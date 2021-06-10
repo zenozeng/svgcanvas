@@ -1,4 +1,4 @@
-window.C2S_EXAMPLES['saveandrestore'] = function (ctx) {
+export default function saveAndRestore(ctx) {
     ctx.fillRect(0, 0, 150, 150);   // Draw a rectangle with default settings
     ctx.save();                  // Save the default state
 
