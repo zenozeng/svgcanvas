@@ -1,4 +1,4 @@
-window.C2S_EXAMPLES['fillstyle'] = function(ctx) {
+export default function fillStyle(ctx) {
     for (var i = 0; i < 6; i++) {
         for (var j = 0; j < 6; j++) {
             ctx.fillStyle = 'rgb(' + Math.floor(255 - 42.5 * i) + ',' +

@@ -1,5 +1,5 @@
 // Example from https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/rotate
-window.C2S_EXAMPLES['rotate'] = function(ctx) {
+export default function rotate(ctx) {
     ctx.fillStyle = 'gray';
     ctx.fillRect(80, 60, 140, 30);
 

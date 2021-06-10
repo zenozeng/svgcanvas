@@ -1,4 +1,4 @@
-window.C2S_EXAMPLES['rgba'] = function(ctx) {
+export default function rgba(ctx) {
     // Draw background
     ctx.fillStyle = 'rgb(255,221,0)';
     ctx.fillRect(0,0,150,37.5);

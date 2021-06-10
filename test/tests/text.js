@@ -1,4 +1,4 @@
-window.C2S_EXAMPLES['text'] = function(ctx) {
+export default function text(ctx) {
     ctx.font = "normal 36px Times";
     ctx.fillStyle = "#000000";
     ctx.fillText("A Text Example", 50, 50);
