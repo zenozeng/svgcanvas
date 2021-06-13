@@ -8,45 +8,37 @@ A maintained fork of [gliffy's canvas2svg](https://github.com/gliffy/canvas2svg)
 https://zenozeng.github.io/svgcanvas/test/
 
 ## How it works
-We create a mock 2d canvas context. Use the canvas context like you would on a normal canvas. As you call methods, we 
-build up a scene graph in SVG. Yay!
+
+We create a mock 2d canvas context. Use the canvas context like you would on a normal canvas. As you call methods, we build up a scene graph in SVG.
 
 ## Usage
 
 ```javascript
-//Create a new mock canvas context. Pass in your desired width and height for your svg document.
-var ctx = new C2S(500,500);
+import {Context} from 'svgcanvas'
+
+const ctx = new Context(500, 500);
 
 //draw your canvas like you would normally
 ctx.fillStyle="red";
 ctx.fillRect(100,100,100,100);
-//etc...
 
-//serialize your SVG
-var mySerializedSVG = ctx.getSerializedSvg(); //true here, if you need to convert named to numbered entities.
-
-//If you really need to you can access the shadow inline SVG created by calling:
-var svg = ctx.getSvg();
+// serialize your SVG
+const mySerializedSVG = ctx.getSerializedSvg(); 
 ```
-
-## Using with node.js
-
-You can use `canvas2svg` with node.js using [jsdom](https://github.com/tmpvar/jsdom) with [node-canvas](https://github.com/Automattic/node-canvas). To do this first create a new document object, and then create a new instance of `C2S` based on that document:
-
-```javascript
-var canvas = require('canvas'),
-    jsdom = require('jsdom'),
-    C2S = require('canvas2svg');
-
-var document = jsdom.jsdom();
-var ctx = new C2S({document: document});
-
-// ... drawing code goes here ...
-```
-
-N.B. You may not need node-canvas for some simple operations when using jsdom >= 6.3.0, but it's still recommended that you install it.
 
 ## CHANGELOG
+
+### v2.0.2
+
+- feat: Implement CanvasTransform Interface, https://github.com/gliffy/canvas2svg/pull/83
+- feat: ClearCanvas in fillRect
+- feat: Element API
+- feat: ESM
+- fix: Recreate root `<g>` when __clearCanvas to remove all attributes
+- chore: Bundle JavaScript using Rollup
+- chore: GitHub Actions
+
+### v1.x
 
 - v1.0.19 Fix __parseFont to not crash
 - v1.0.18 clip was not working, the path never made it to the clip area
