@@ -28,6 +28,10 @@ const mySerializedSVG = ctx.getSerializedSvg();
 
 ## CHANGELOG
 
+### v2.0.3
+
+- feat: sync element's width and height to context
+
 ### v2.0.2
 
 - feat: Implement CanvasTransform Interface, https://github.com/gliffy/canvas2svg/pull/83

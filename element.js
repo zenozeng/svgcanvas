@@ -2,9 +2,7 @@ import Context from './context';
 
 function SVGCanvasElement(options) {
 
-    var debug = options && options.debug;
-
-    this.ctx = new Context(100, 100, {debug: debug});
+    this.ctx = new Context(100, 100);
     this.svg = this.ctx.__root;
 
     // sync attributes to svg
@@ -34,7 +32,7 @@ function SVGCanvasElement(options) {
                 if (isNaN(val) || (typeof val === "undefined")) {
                     return;
                 }
-                _this.ctx['__'+prop] = val;
+                _this.ctx[prop] = val;
                 svg.setAttribute(prop, val);
                 return wrapper[prop] = val;
             }

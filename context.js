@@ -1,5 +1,5 @@
 /*!!
- *  SVGCanvas v2.0.1
+ *  SVGCanvas v2.0.3
  *  Draw on SVG using Canvas's 2D Context API.
  *
  *  Licensed under the MIT license:
