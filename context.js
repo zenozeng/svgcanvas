@@ -486,6 +486,10 @@ export default (function () {
         parent.appendChild(group);
         this.__currentElement = group;
         this.__stack.push(this.__getStyleState());
+        if (!this.__transformMatrixStack) {
+            this.__transformMatrixStack = [];
+        }
+        this.__transformMatrixStack.push(this.getTransform());
     };
 
     /**
@@ -500,6 +504,9 @@ export default (function () {
         }
         var state = this.__stack.pop();
         this.__applyStyleState(state);
+        if (this.__transformMatrixStack && this.__transformMatrixStack.length > 0) {
+            this.setTransform(this.__transformMatrixStack.pop())
+        }
     };
 
     /**
