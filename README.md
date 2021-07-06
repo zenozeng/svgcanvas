@@ -28,6 +28,10 @@ const mySerializedSVG = ctx.getSerializedSvg();
 
 ## CHANGELOG
 
+### v2.0.4
+
+- fix: push/pop transformMatrixStack when save/restore, for https://github.com/zenozeng/p5.js-svg/issues/191
+
 ### v2.0.3
 
 - feat: sync element's width and height to context
