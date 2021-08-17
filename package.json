@@ -7,6 +7,10 @@
     "build": "rollup index.js -o dist/svgcanvas.js -f cjs && rollup index.js -o dist/svgcanvas.esm.js -f es && rollup test/index.js -o dist/test.js -f iife",
     "prepublishOnly": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zenozeng/svgcanvas.git"
+  },
   "keywords": [
     "canvas",
     "svg",
