@@ -15,24 +15,26 @@ import setLineDash from './tests/setLineDash'
 import text from './tests/text'
 import tiger from './tests/tiger'
 import transform from './tests/transform'
+import pattern from "./tests/pattern";
 
 const tests = [
     tiger,
-    arc, 
-    arcTo, 
-    arcTo2, 
-    emptyArc, 
-    fillstyle, 
-    globalAlpha, 
-    gradient, 
-    linecap, 
-    linewidth, 
-    rgba, 
-    rotate, 
-    saveandrestore, 
+    arc,
+    arcTo,
+    arcTo2,
+    emptyArc,
+    fillstyle,
+    globalAlpha,
+    gradient,
+    linecap,
+    linewidth,
+    rgba,
+    rotate,
+    saveandrestore,
     setLineDash,
     text,
-    transform
+    transform,
+    pattern
 ];
 
 for (let fn of tests) {
