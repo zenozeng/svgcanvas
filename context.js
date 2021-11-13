@@ -371,7 +371,7 @@ export default (function () {
     		})
     	}
 
-        var keys = Object.keys(STYLES), i, style, value, id, regex, matches;
+        var keys = Object.keys(STYLES), i, style, value, regex, matches, id, nodeIndex, node;
         for (i = 0; i < keys.length; i++) {
             style = STYLES[keys[i]];
             value = this[keys[i]];
@@ -381,10 +381,11 @@ export default (function () {
                     //pattern
                     if (value.__ctx) {
                         //copy over defs
-                        while(value.__ctx.__defs.childNodes.length) {
-                            id = value.__ctx.__defs.childNodes[0].getAttribute("id");
-                            this.__ids[id] = id;
-                            this.__defs.appendChild(value.__ctx.__defs.childNodes[0]);
+                        for(nodeIndex = 0; nodeIndex < value.__ctx.__defs.childNodes.length; nodeIndex++){
+                          node = value.__ctx.__defs.childNodes[nodeIndex];
+                          id = node.getAttribute("id");
+                          this.__ids[id] = id;
+                          this.__defs.appendChild(node);
                         }
                     }
                     currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
@@ -1155,6 +1156,11 @@ export default (function () {
         pattern.setAttribute("id", id);
         pattern.setAttribute("width", image.width);
         pattern.setAttribute("height", image.height);
+        // We want the pattern sizing to be absolute, and not relative
+        // https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Patterns
+        // https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/patternUnits
+        pattern.setAttribute("patternUnits", "userSpaceOnUse");
+
         if (image.nodeName === "CANVAS" || image.nodeName === "IMG") {
             img = this.__document.createElementNS("http://www.w3.org/2000/svg", "image");
             img.setAttribute("width", image.width);
