@@ -1,6 +1,6 @@
 {
   "name": "svgcanvas",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "svgcanvas",
   "main": "dist/svgcanvas.js",
   "scripts": {
@@ -19,6 +19,6 @@
   "author": "Zeno Zeng",
   "license": "MIT",
   "devDependencies": {
-    "rollup": "^2.51.1"
+    "rollup": "^2.67.0"
   }
 }

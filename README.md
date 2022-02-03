@@ -28,6 +28,11 @@ const mySerializedSVG = ctx.getSerializedSvg();
 
 ## CHANGELOG
 
+### v2.0.7
+
+- fix typo
+- rollup 2.67.0
+
 ### v2.0.6
 
 - utils.toString for https://github.com/zenozeng/p5.js-svg/issues/204

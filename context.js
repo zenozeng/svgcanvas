@@ -13,7 +13,7 @@
  *  Copyright (c) 2021 Zeno Zeng
  */
 
-import * as utils from 'utils';
+import * as utils from './utils';
 
 export default (function () {
     "use strict";
