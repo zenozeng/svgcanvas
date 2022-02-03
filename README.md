@@ -28,6 +28,10 @@ const mySerializedSVG = ctx.getSerializedSvg();
 
 ## CHANGELOG
 
+### v2.0.6
+
+- utils.toString for https://github.com/zenozeng/p5.js-svg/issues/204
+
 ### v2.0.5
 
 - Fix adding CanvasPattern ([Xavier Delamotte](https://github.com/x4d3)) [#7](https://github.com/zenozeng/svgcanvas/pull/7)

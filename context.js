@@ -13,6 +13,8 @@
  *  Copyright (c) 2021 Zeno Zeng
  */
 
+import * as utils from 'utils';
+
 export default (function () {
     "use strict";
 
@@ -194,6 +196,7 @@ export default (function () {
     CanvasGradient.prototype.addColorStop = function (offset, color) {
         var stop = this.__ctx.__createElement("stop"), regex, matches;
         stop.setAttribute("offset", offset);
+        color = utils.toString(color);
         if (color.indexOf("rgba") !== -1) {
             //separate alpha value, since webkit can't handle it
             regex = /rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d*)\s*\)/gi;
@@ -394,7 +397,7 @@ export default (function () {
                     //gradient
                     currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 } else if (style.apply.indexOf(type)!==-1 && style.svg !== value) {
-                    if ((style.svgAttr === "stroke" || style.svgAttr === "fill") && value.indexOf("rgba") !== -1) {
+                    if ((style.svgAttr === "stroke" || style.svgAttr === "fill") && utils.toString(value).indexOf("rgba") !== -1) {
                         //separate alpha value, since illustrator can't handle it
                         regex = /rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d*)\s*\)/gi;
                         matches = regex.exec(value);
