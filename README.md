@@ -26,7 +26,15 @@ ctx.fillRect(100,100,100,100);
 const mySerializedSVG = ctx.getSerializedSvg(); 
 ```
 
+## Tests
+
+https://zenozeng.github.io/p5.js-svg/test/
+
 ## CHANGELOG
+
+## v2.2.0
+
+- feat: Context.prototype.getImageData (experimental) for https://github.com/gliffy/canvas2svg/issues/3 and https://github.com/zenozeng/p5.js-svg/issues/203
 
 ## v2.1.0
 

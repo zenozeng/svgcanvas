@@ -14,6 +14,7 @@
  */
 
 import * as utils from './utils';
+import imageUtils from './image';
 
 export default (function () {
     "use strict";
@@ -1307,11 +1308,23 @@ export default (function () {
     }
 
     /**
+     * 
+     * @param {*} sx The x-axis coordinate of the top-left corner of the rectangle from which the ImageData will be extracted.
+     * @param {*} sy The y-axis coordinate of the top-left corner of the rectangle from which the ImageData will be extracted.
+     * @param {*} sw The width of the rectangle from which the ImageData will be extracted. Positive values are to the right, and negative to the left.
+     * @param {*} sh The height of the rectangle from which the ImageData will be extracted. Positive values are down, and negative are up.
+     * @param {Boolean} options.async Will return a Promise<ImageData> if true, must be set to true
+     * @returns An ImageData object containing the image data for the rectangle of the canvas specified. The coordinates of the rectangle's top-left corner are (sx, sy), while the coordinates of the bottom corner are (sx + sw, sy + sh).
+     */
+    Context.prototype.getImageData = function(sx, sy, sw, sh, options) {
+        return imageUtils.getImageData(this.getSvg(), this.width, this.height, sx, sy, sw, sh, options);
+    };
+
+    /**
      * Not yet implemented
      */
     Context.prototype.drawFocusRing = function () {};
     Context.prototype.createImageData = function () {};
-    Context.prototype.getImageData = function () {};
     Context.prototype.putImageData = function () {};
     Context.prototype.globalCompositeOperation = function () {};
 
