@@ -2,7 +2,7 @@ import Context from './context';
 
 function SVGCanvasElement(options) {
 
-    this.ctx = new Context(100, 100);
+    this.ctx = new Context(options);
     this.svg = this.ctx.__root;
 
     // sync attributes to svg

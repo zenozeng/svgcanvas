@@ -28,6 +28,12 @@ const mySerializedSVG = ctx.getSerializedSvg();
 
 ## CHANGELOG
 
+## v2.1.0
+
+- feat: SVGCanvasElement(options)
+- feat: options.debug
+- refactor
+
 ### v2.0.7
 
 - fix typo
