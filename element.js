@@ -87,7 +87,7 @@ SVGCanvasElement.prototype.toDataURL = function(type, encoderOptions, options) {
 };
 
 SVGCanvasElement.prototype.addEventListener = function() {
-    return this.svg.addEventListener.apply(this, arguments);
+    return this.svg.addEventListener.apply(this.svg, arguments);
 };
 
 // will return wrapper element: <div><svg></svg></div>

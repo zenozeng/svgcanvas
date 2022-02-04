@@ -32,11 +32,15 @@ https://zenozeng.github.io/p5.js-svg/test/
 
 ## CHANGELOG
 
-## v2.2.0
+### v2.2.1
+
+- fix(SVGCanvasElement): addEventListener
+
+### v2.2.0
 
 - feat: Context.prototype.getImageData (experimental) for https://github.com/gliffy/canvas2svg/issues/3 and https://github.com/zenozeng/p5.js-svg/issues/203
 
-## v2.1.0
+### v2.1.0
 
 - feat: SVGCanvasElement(options)
 - feat: options.debug
