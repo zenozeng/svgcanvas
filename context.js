@@ -203,7 +203,7 @@ export default (function () {
             stop.setAttribute("stop-color", format("rgb({r},{g},{b})", {r:matches[1], g:matches[2], b:matches[3]}));
             stop.setAttribute("stop-opacity", matches[4]);
         } else {
-            stop.setAttribute("stop-color", color);
+            stop.setAttribute("stop-color", utils.toString(color));
         }
         this.__root.appendChild(stop);
     };
@@ -226,7 +226,7 @@ export default (function () {
 
         var defaultOptions = { width:500, height:500, enableMirroring : false}, options;
 
-        //keep support for this way of calling C2S: new C2S(width,height)
+        // keep support for this way of calling Context: new Context(width, height)
         if (arguments.length > 1) {
             options = defaultOptions;
             options.width = arguments[0];
@@ -301,7 +301,6 @@ export default (function () {
         }
         console.debug(`svgcanvas#${this.__id}:`, ...data)
     }
-
 
     /**
      * Creates the specified svg element
@@ -763,7 +762,6 @@ export default (function () {
      * Sets fill properties on the current element
      */
     Context.prototype.fill = function () {
-        utils.debug('fill', this.fillStyle);
         if (this.__currentElement.nodeName === "path") {
             this.__currentElement.setAttribute("paint-order", "stroke fill markers");
         }
