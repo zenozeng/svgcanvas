@@ -95,4 +95,12 @@ SVGCanvasElement.prototype.getElement = function() {
     return this.wrapper;
 };
 
+SVGCanvasElement.prototype.getAttribute = function(prop) {
+    return this.wrapper.getAttribute(prop);
+};
+
+SVGCanvasElement.prototype.setAttribute = function(prop, val) {
+    this.wrapper.setAttribute(prop, val);
+};
+
 export default SVGCanvasElement;
