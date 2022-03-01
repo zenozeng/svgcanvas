@@ -32,6 +32,10 @@ https://zenozeng.github.io/p5.js-svg/test/
 
 ## CHANGELOG
 
+### v2.2.2
+
+- Delegate getAttribute/setAttribute ([Validark](https://github.com/Validark)) [#8](https://github.com/zenozeng/svgcanvas/pull/8)
+
 ### v2.2.1
 
 - fix(SVGCanvasElement): addEventListener
