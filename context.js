@@ -199,7 +199,7 @@ export default (function () {
         stop.setAttribute("offset", offset);
         if (utils.toString(color).indexOf("rgba") !== -1) {
             //separate alpha value, since webkit can't handle it
-            regex = /rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d*)\s*\)/gi;
+            regex = /rgba\(\s*(\d*\.?\d+)\s*,\s*(\d*\.?\d+)\s*,\s*(\d*\.?\d+)\s*,\s*(\d?\.?\d*)\s*\)/gi;
             matches = regex.exec(color);
             stop.setAttribute("stop-color", format("rgb({r},{g},{b})", {r:matches[1], g:matches[2], b:matches[3]}));
             stop.setAttribute("stop-opacity", matches[4]);
@@ -415,7 +415,7 @@ export default (function () {
                 } else if (style.apply.indexOf(type)!==-1 && style.svg !== value) {
                     if ((style.svgAttr === "stroke" || style.svgAttr === "fill") && value.indexOf("rgba") !== -1) {
                         //separate alpha value, since illustrator can't handle it
-                        regex = /rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d?\.?\d*)\s*\)/gi;
+                        regex = /rgba\(\s*(\d*\.?\d+)\s*,\s*(\d*\.?\d+)\s*,\s*(\d*\.?\d+)\s*,\s*(\d?\.?\d*)\s*\)/gi;
                         matches = regex.exec(value);
                         currentElement.setAttribute(style.svgAttr, format("rgb({r},{g},{b})", {r:matches[1], g:matches[2], b:matches[3]}));
                         //should take globalAlpha here
