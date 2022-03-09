@@ -293,7 +293,7 @@ export default (function () {
 
     /**
      * Log
-     * 
+     *
      * @private
      */
     Context.prototype.__debug = function(...data) {
@@ -380,15 +380,15 @@ export default (function () {
      * @private
      */
     Context.prototype.__applyStyleToCurrentElement = function (type) {
-    	var currentElement = this.__currentElement;
-    	var currentStyleGroup = this.__currentElementsToStyle;
-    	if (currentStyleGroup) {
-    		currentElement.setAttribute(type, "");
-    		currentElement = currentStyleGroup.element;
-    		currentStyleGroup.children.forEach(function (node) {
-    			node.setAttribute(type, "");
-    		})
-    	}
+        var currentElement = this.__currentElement;
+        var currentStyleGroup = this.__currentElementsToStyle;
+        if (currentStyleGroup) {
+            currentElement.setAttribute(type, "");
+            currentElement = currentStyleGroup.element;
+            currentStyleGroup.children.forEach(function (node) {
+                node.setAttribute(type, "");
+            })
+        }
 
         var keys = Object.keys(STYLES), i, style, value, regex, matches, id, nodeIndex, node;
         for (i = 0; i < keys.length; i++) {
@@ -531,7 +531,7 @@ export default (function () {
         if (this.__transformMatrixStack && this.__transformMatrixStack.length > 0) {
             this.setTransform(this.__transformMatrixStack.pop())
         }
-       
+
     };
 
     /**
@@ -556,11 +556,11 @@ export default (function () {
      * @private
      */
     Context.prototype.__applyCurrentDefaultPath = function () {
-    	var currentElement = this.__currentElement;
+        var currentElement = this.__currentElement;
         if (currentElement.nodeName === "path") {
-			currentElement.setAttribute("d", this.__currentDefaultPath);
+            currentElement.setAttribute("d", this.__currentDefaultPath);
         } else {
-			console.error("Attempted to apply path command to node", currentElement.nodeName);
+            console.error("Attempted to apply path command to node", currentElement.nodeName);
         }
     };
 
@@ -585,7 +585,7 @@ export default (function () {
         // creates a new subpath with the given point
         this.__currentPosition = {x: x, y: y};
         this.__addPathCommand(format("M {x} {y}", {
-            x: this.__matrixTransform(x, y).x, 
+            x: this.__matrixTransform(x, y).x,
             y: this.__matrixTransform(x, y).y
         }));
     };
@@ -606,12 +606,12 @@ export default (function () {
         this.__currentPosition = {x: x, y: y};
         if (this.__currentDefaultPath.indexOf('M') > -1) {
             this.__addPathCommand(format("L {x} {y}", {
-                x: this.__matrixTransform(x, y).x, 
+                x: this.__matrixTransform(x, y).x,
                 y: this.__matrixTransform(x, y).y
             }));
         } else {
             this.__addPathCommand(format("M {x} {y}", {
-                x: this.__matrixTransform(x, y).x, 
+                x: this.__matrixTransform(x, y).x,
                 y: this.__matrixTransform(x, y).y
             }));
         }
@@ -628,7 +628,7 @@ export default (function () {
                 cp1y: this.__matrixTransform(cp1x, cp1y).y,
                 cp2x: this.__matrixTransform(cp2x, cp2y).x,
                 cp2y: this.__matrixTransform(cp2x, cp2y).y,
-                x: this.__matrixTransform(x, y).x, 
+                x: this.__matrixTransform(x, y).x,
                 y: this.__matrixTransform(x, y).y
             }));
     };
@@ -639,9 +639,9 @@ export default (function () {
     Context.prototype.quadraticCurveTo = function (cpx, cpy, x, y) {
         this.__currentPosition = {x: x, y: y};
         this.__addPathCommand(format("Q {cpx} {cpy} {x} {y}", {
-            cpx: this.__matrixTransform(cpx, cpy).x, 
+            cpx: this.__matrixTransform(cpx, cpy).x,
             cpy: this.__matrixTransform(cpx, cpy).y,
-            x: this.__matrixTransform(x, y).x, 
+            x: this.__matrixTransform(x, y).x,
             y: this.__matrixTransform(x, y).y
         }));
     };
@@ -909,52 +909,6 @@ export default (function () {
     };
 
     /**
-     * Parses the font string and returns svg mapping
-     * @private
-     */
-    Context.prototype.__parseFont = function () {
-        var regex = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-,\'\"\sa-z0-9]+?)\s*$/i;
-        var fontPart = regex.exec( this.font );
-        var data = {
-            style : fontPart[1] || 'normal',
-            size : fontPart[4] || '10px',
-            family : fontPart[6] || 'sans-serif',
-            weight: fontPart[3] || 'normal',
-            decoration : fontPart[2] || 'normal',
-            href : null
-        };
-
-        //canvas doesn't support underline natively, but we can pass this attribute
-        if (this.__fontUnderline === "underline") {
-            data.decoration = "underline";
-        }
-
-        //canvas also doesn't support linking, but we can pass this as well
-        if (this.__fontHref) {
-            data.href = this.__fontHref;
-        }
-
-        return data;
-    };
-
-    /**
-     * Helper to link text fragments
-     * @param font
-     * @param element
-     * @return {*}
-     * @private
-     */
-    Context.prototype.__wrapTextLink = function (font, element) {
-        if (font.href) {
-            var a = this.__createElement("a");
-            a.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", font.href);
-            a.appendChild(element);
-            return a;
-        }
-        return element;
-    };
-
-    /**
      * Fills or strokes text
      * @param text
      * @param x
@@ -963,16 +917,21 @@ export default (function () {
      * @private
      */
     Context.prototype.__applyText = function (text, x, y, action) {
-        var font = this.__parseFont(),
+        var el = document.createElement("span");
+        el.setAttribute("style", 'font:' + this.font);
+
+        var style = el.style, // CSSStyleDeclaration object
             parent = this.__closestGroupOrSvg(),
             textElement = this.__createElement("text", {
-                "font-family" : font.family,
-                "font-size" : font.size,
-                "font-style" : font.style,
-                "font-weight" : font.weight,
-                "text-decoration" : font.decoration,
-                "x" : x,
-                "y" : y,
+                "font-family": style.fontFamily,
+                "font-size": style.fontSize,
+                "font-style": style.fontStyle,
+                "font-weight": style.fontWeight,
+
+                // canvas doesn't support underline natively, but we do :)
+                "text-decoration": this.__fontUnderline,
+                "x": x,
+                "y": y,
                 "text-anchor": getTextAnchor(this.textAlign),
                 "dominant-baseline": getDominantBaseline(this.textBaseline)
             }, true);
@@ -981,7 +940,16 @@ export default (function () {
         this.__currentElement = textElement;
         this.__applyTransformation(textElement);
         this.__applyStyleToCurrentElement(action);
-        parent.appendChild(this.__wrapTextLink(font,textElement));
+
+        if (this.__fontHref) {
+            var a = this.__createElement("a");
+            // canvas doesn't natively support linking, but we do :)
+            a.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", this.__fontHref);
+            a.appendChild(textElement);
+            textElement = a;
+        }
+
+        parent.appendChild(textElement);
     };
 
     /**
@@ -1055,7 +1023,7 @@ export default (function () {
                 xAxisRotation:0,
                 largeArcFlag:largeArcFlag,
                 sweepFlag:sweepFlag,
-                endX: this.__matrixTransform(endX, endY).x, 
+                endX: this.__matrixTransform(endX, endY).x,
                 endY: this.__matrixTransform(endX, endY).y
             }));
 
@@ -1209,9 +1177,9 @@ export default (function () {
     };
 
     /**
-     * SetTransform changes the current transformation matrix to 
+     * SetTransform changes the current transformation matrix to
      * the matrix given by the arguments as described below.
-     * 
+     *
      * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setTransform
      */
     Context.prototype.setTransform = function (a, b, c, d, e, f) {
@@ -1225,7 +1193,7 @@ export default (function () {
     /**
      * GetTransform Returns a copy of the current transformation matrix,
      * as a newly created DOMMAtrix Object
-     * 
+     *
      * @returns A DOMMatrix Object
      */
     Context.prototype.getTransform = function () {
@@ -1235,7 +1203,7 @@ export default (function () {
 
     /**
      * ResetTransform resets the current transformation matrix to the identity matrix
-     * 
+     *
      * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/resetTransform
      */
     Context.prototype.resetTransform = function () {
@@ -1243,13 +1211,13 @@ export default (function () {
     };
 
     /**
-     * Add the scaling transformation described by the arguments to the current transformation matrix. 
-     * 
-     * @param x The x argument represents the scale factor in the horizontal direction 
+     * Add the scaling transformation described by the arguments to the current transformation matrix.
+     *
+     * @param x The x argument represents the scale factor in the horizontal direction
      * @param y The y argument represents the scale factor in the vertical direction.
      * @see https://html.spec.whatwg.org/multipage/canvas.html#dom-context-2d-scale
      */
-    Context.prototype.scale = function (x, y) {        
+    Context.prototype.scale = function (x, y) {
         if (y === undefined) {
             y = x;
         }
@@ -1263,7 +1231,7 @@ export default (function () {
 
     /**
      * Rotate adds a rotation to the transformation matrix.
-     * 
+     *
      * @param angle The rotation angle, clockwise in radians. You can use degree * Math.PI / 180 to calculate a radian from a degree.
      * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/rotate
      * @see https://www.w3.org/TR/css-transforms-1
@@ -1282,7 +1250,7 @@ export default (function () {
 
     /**
      * Translate adds a translation transformation to the current matrix.
-     * 
+     *
      * @param x Distance to move in the horizontal direction. Positive values are to the right, and negative to the left.
      * @param y Distance to move in the vertical direction. Positive values are down, and negative are up.
      * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/translate
@@ -1293,9 +1261,9 @@ export default (function () {
     };
 
     /**
-     * Transform multiplies the current transformation with the matrix described by the arguments of this method. 
+     * Transform multiplies the current transformation with the matrix described by the arguments of this method.
      * This lets you scale, rotate, translate (move), and skew the context.
-     * 
+     *
      * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/transform
      */
     Context.prototype.transform = function (a, b, c, d, e, f) {
@@ -1308,7 +1276,7 @@ export default (function () {
     }
 
     /**
-     * 
+     *
      * @param {*} sx The x-axis coordinate of the top-left corner of the rectangle from which the ImageData will be extracted.
      * @param {*} sy The y-axis coordinate of the top-left corner of the rectangle from which the ImageData will be extracted.
      * @param {*} sw The width of the rectangle from which the ImageData will be extracted. Positive values are to the right, and negative to the left.
