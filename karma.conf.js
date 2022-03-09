@@ -1,32 +1,27 @@
+process.env.CHROME_BIN = require('puppeteer').executablePath();
+
 module.exports = function(config) {
     config.set({
         basePath: '',
-        frameworks: ['mocha', 'chai'],
-        plugins: [
-            'karma-mocha',
-            'karma-chai',
-            'karma-mocha-reporter',
-            'karma-chrome-launcher',
-            'karma-firefox-launcher'
-        ],
-        client: {
-        },
+        frameworks: ['mocha'],
         files: [
-            'node_modules/resemblejs/resemble.js',
-            'canvas2svg.js',
-            'test/globals.js',
-            'test/example/*.js',
-            'test/unit.spec.js',
-            'test/example.spec.js'
+            'dist/rendering.test.js',
         ],
         preprocessors: {
+            '**/*.js': ['sourcemap']
         },
-        reporters: ['mocha'],
+        reporters: ['progress', 'coverage', 'mocha'],
+        coverageReporter: {
+            type: 'lcovonly',
+            dir : 'coverage/',
+            subdir: '.',
+            file: 'lcov.info'
+        },
         port: 9876,
         colors: true,
-        logLevel: config.LOG_DISABLE,
+        logLevel: config.LOG_INFO,
         autoWatch: false,
-        browsers: ['Firefox', 'Chrome'],
-        singleRun: true
+        browsers: ['ChromeHeadless'],
+        singleRun: true // output all logs to stdout instead of click debug button
     });
 };
