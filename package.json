@@ -4,7 +4,7 @@
   "description": "svgcanvas",
   "main": "dist/svgcanvas.js",
   "scripts": {
-    "build": "rollup index.js -o dist/svgcanvas.js -f cjs && rollup index.js -o dist/svgcanvas.esm.js -f es && rollup test/index.js -o dist/test.js -f iife && rollup test/rendering.test.js -o dist/rendering.test.js -f iife",
+    "build": "rollup -c",
     "prepublishOnly": "npm run build",
     "test": "karma start"
   },
@@ -20,6 +20,9 @@
   "author": "Zeno Zeng",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.2",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "chai": "^4.3.6",
     "karma": "^6.3.17",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.2.0",
