@@ -4,6 +4,7 @@
   "description": "svgcanvas",
   "main": "dist/svgcanvas.js",
   "scripts": {
+    "watch": "rollup -c -w",
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
     "test": "karma start"
