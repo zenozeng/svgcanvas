@@ -27,7 +27,8 @@ export default [
         input: 'test/rendering.test.js',
         output: {
             file: 'dist/rendering.test.js',
-            format: 'iife'
+            format: 'iife',
+            sourcemap: true,
         },
         plugins: [nodeResolve(), commonjs()]
     },

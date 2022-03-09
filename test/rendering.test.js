@@ -43,19 +43,20 @@ const config = {
 }
 
 class RenderingTester {
-    constructor(fn) {
-        this.fn = fn
+    constructor(name, fn) {
+        this.name = name;
+        this.fn = fn;
+        this.width = 600;
+        this.height = 600;
     }
 
     async test() {
-        const width = 500;
-        const height = 500;
         const canvas = document.createElement('canvas');
         const svgcanvas = new Element();
 
         [canvas, svgcanvas].forEach((canvas) => {
-            canvas.width = width
-            canvas.height = height
+            canvas.width = this.width
+            canvas.height = this.height
             const ctx = canvas.getContext('2d')
             this.fn(ctx)
         })
@@ -73,20 +74,22 @@ class RenderingTester {
         const canvasPixels = this.getPixels(canvas);
         const diffPixels = this.diffPixels(svgPixels, canvasPixels);
         const removeThinLinesPixels = this.removeThinLines(this.removeThinLines(diffPixels));
-        const count = Math.max(this.countPixels(svgPixels), this.countPixels(canvasPixels));
-        const diffCount = this.countPixels(diffPixels);
-        console.log({ count, diffCount })
-        if (count === 0 && diffCount === 0) {
+        const svgPixelsCount = this.countPixels(svgPixels);
+        const canvasPixelsCount = this.countPixels(canvasPixels)
+        const count = Math.max(svgPixelsCount, canvasPixelsCount);
+        const diffPixelsCount = this.countPixels(removeThinLinesPixels);
+        console.log({ fn: this.name, count, diffCount: diffPixelsCount, svgPixelsCount, canvasPixelsCount })
+        if (count === 0 && diffPixelsCount === 0) {
             return 0
         }
-        const diffRate = diffCount / count;
+        const diffRate = diffPixelsCount / count;
         return diffRate;
     }
 
     getPixels(image) {
         const canvas = document.createElement('canvas');
-        const width = 100 * config.pixelDensity;
-        const height = 100 * config.pixelDensity;
+        const width = this.width;
+        const height = this.height;
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
@@ -108,17 +111,16 @@ class RenderingTester {
 
     diffPixels(imgData1, imgData2) {
         const canvas = document.createElement('canvas');
-        const width = 100 * config.pixelDensity;
-        const height = 100 * config.pixelDensity;
+        const width = this.width;
+        const height = this.height;
         const diffImgData = canvas.getContext('2d').getImageData(0, 0, width, height);
-        let $this = this;
         for (var i = 0; i < imgData1.data.length; i += 4) {
             var indexes = [i, i + 1, i + 2, i + 3];
             indexes.forEach(function (i) {
                 diffImgData.data[i] = 0;
             });
             if (indexes.some(function (i) {
-                return Math.abs(imgData1.data[i] - imgData2.data[i]) > $this.maxPixelDiff;
+                return Math.abs(imgData1.data[i] - imgData2.data[i]) > 0;
             })) {
                 diffImgData.data[i + 3] = 255; // set black
             }
@@ -128,8 +130,8 @@ class RenderingTester {
 
     removeThinLines(imageData) {
         const canvas = document.createElement('canvas');
-        const width = 100 * config.pixelDensity;
-        const height = 100 * config.pixelDensity;
+        const width = this.width;
+        const height = this.height;
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
@@ -182,9 +184,8 @@ class RenderingTester {
 describe('RenderTest', () => {
     for (let fn of Object.keys(tests)) {
         it(`should render same results for ${fn}`, async () => {
-            const tester = new RenderingTester(tests[fn]);
+            const tester = new RenderingTester(fn, tests[fn]);
             const diffRate = await tester.test();
-            console.log({ diffRate, fn });
             expect(diffRate).to.lessThan(0.05);
         })
     }
