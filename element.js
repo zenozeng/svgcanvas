@@ -24,6 +24,13 @@ function SVGCanvasElement(options) {
         }
     });
 
+    Object.defineProperty(this, 'tagName', {
+        get: function() {
+            return "CANVAS";
+        },
+        set: function() {} // no-op
+    });
+
     ["width", "height"].forEach(function(prop) {
         Object.defineProperty(_this, prop, {
             get: function() {
