@@ -1015,11 +1015,14 @@ export default (function () {
             largeArcFlag = diff > Math.PI ? 1 : 0;
         }
 
+        var scaleX = Math.hypot(this.__transformMatrix.a, this.__transformMatrix.b);
+        var scaleY = Math.hypot(this.__transformMatrix.c, this.__transformMatrix.d);
+
         this.lineTo(startX, startY);
         this.__addPathCommand(format("A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
             {
-                rx:radius,
-                ry:radius,
+                rx:radius * scaleX,
+                ry:radius * scaleY,
                 xAxisRotation:0,
                 largeArcFlag:largeArcFlag,
                 sweepFlag:sweepFlag,

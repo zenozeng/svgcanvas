@@ -2,6 +2,7 @@ import {Element} from '../index'
 import arc from './tests/arc'
 import arcTo from './tests/arcTo'
 import arcTo2 from './tests/arcTo2'
+import arcToScaled from './tests/arcToScaled'
 import emptyArc from './tests/emptyArc'
 import ellipse from './tests/ellipse'
 import fillstyle from './tests/fillstyle'
@@ -23,6 +24,7 @@ const tests = [
     arc,
     arcTo,
     arcTo2,
+    arcToScaled,
     emptyArc,
     ellipse,
     fillstyle,
