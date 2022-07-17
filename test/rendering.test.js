@@ -3,6 +3,7 @@ import { expect } from 'chai'
 import arc from './tests/arc'
 import arcTo from './tests/arcTo'
 import arcTo2 from './tests/arcTo2'
+import arcToScaled from './tests/arcToScaled'
 import emptyArc from './tests/emptyArc'
 import fillstyle from './tests/fillstyle'
 import globalAlpha from './tests/globalalpha'
@@ -23,6 +24,7 @@ const tests = {
     arc,
     arcTo,
     arcTo2,
+    arcToScaled,
     emptyArc,
     fillstyle,
     globalAlpha,
