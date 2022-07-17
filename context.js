@@ -1038,12 +1038,13 @@ export default (function () {
             return;
         }
 
-        x = this.__matrixTransform(x, y).x;
-        y = this.__matrixTransform(x, y).y;
-        var scaleX = Math.hypot(this.__transformMatrix.a, this.__transformMatrix.b);
-        var scaleY = Math.hypot(this.__transformMatrix.c, this.__transformMatrix.d);
-        radiusX = radiusX * scaleX;
-        radiusY = radiusY * scaleY;
+        var transformedCenter = this.__matrixTransform(x, y);
+        x = transformedCenter.x;
+        y = transformedCenter.y;
+        var scale = this.__getTransformScale();
+        radiusX = radiusX * scale.x;
+        radiusY = radiusY * scale.y;
+        rotation = rotation + this.__getTransformRotation()
 
         startAngle = startAngle % (2*Math.PI);
         endAngle = endAngle % (2*Math.PI);
@@ -1336,6 +1337,25 @@ export default (function () {
 
     Context.prototype.__matrixTransform = function(x, y) {
         return new DOMPoint(x, y).matrixTransform(this.__transformMatrix)
+    }
+
+    /**
+     * 
+     * @returns The scale component of the transform matrix as {x,y}.
+     */
+    Context.prototype.__getTransformScale = function() {
+        return {
+            x: Math.hypot(this.__transformMatrix.a, this.__transformMatrix.b),
+            y: Math.hypot(this.__transformMatrix.c, this.__transformMatrix.d)
+        };
+    }
+
+    /**
+     * 
+     * @returns The rotation component of the transform matrix in radians.
+     */
+    Context.prototype.__getTransformRotation = function() {
+        return Math.atan2(this.__transformMatrix.b, this.__transformMatrix.a);
     }
 
     /**

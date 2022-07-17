@@ -2,10 +2,11 @@
 export default function ellipse2(ctx) {
     // Draw a cylinder using ellipses and lines.
     var w = 100, h = 100, rx = 50, ry = 10;
-    var scaleX = 1.5, scaleY = 2.5;
+    var scaleX = 1.5, scaleY = 1.2;
 
+    ctx.rotate(Math.PI / 10);
     ctx.scale(scaleX, scaleY);
-    ctx.translate(100, 75);
+    ctx.translate(200, 25);
 
     ctx.beginPath();
     ctx.moveTo(-w / 2, -h / 2 + ry);
@@ -27,6 +28,6 @@ export default function ellipse2(ctx) {
     // Remove scale before stroking because the SVG conversion is not correctly
     // scaling the stroke as well. Without this the pixel differences are too
     // high.
-    ctx.scale(1 / scaleX, 1 / scaleY);
+    ctx.resetTransform();
     ctx.stroke();
 };
