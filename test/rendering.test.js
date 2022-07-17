@@ -11,6 +11,7 @@ import globalAlpha from './tests/globalalpha'
 import gradient from './tests/gradient'
 import linecap from './tests/linecap'
 import linewidth from './tests/linewidth'
+import scaledLine from './tests/scaledLine'
 import rgba from './tests/rgba'
 import rotate from './tests/rotate'
 import saveandrestore from './tests/saveandrestore'
@@ -33,6 +34,7 @@ const tests = {
     gradient,
     linecap,
     linewidth,
+    scaledLine,
     rgba,
     rotate,
     saveandrestore,

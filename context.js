@@ -433,6 +433,9 @@ export default (function () {
                                  //fill-opacity or stroke-opacity has already been set by stroke or fill.
                                 continue;
                             }
+                        } else if (keys[i] === 'lineWidth') {
+                            var scale = this.__getTransformScale();
+                            value = value * Math.max(scale.x, scale.y);
                         }
                         //otherwise only update attribute if right type, and not svg default
                         currentElement.setAttribute(attr, value);
