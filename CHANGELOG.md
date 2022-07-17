@@ -1,5 +1,10 @@
 ## CHANGELOG
 
+### v2.4.0
+
+- fix: rendering of arcTo when a scale is applied ([Chris Waters](https://github.com/k1w1)) [#17](https://github.com/zenozeng/svgcanvas/pull/17)
+- feat: Context.prototype.ellipse  ([Chris Waters](https://github.com/k1w1)) [#18](https://github.com/zenozeng/svgcanvas/pull/18)
+
 ### v2.3.0
 
 - fix: update Regular Expression to handle decimal values
