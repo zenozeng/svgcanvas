@@ -1071,8 +1071,14 @@ export default (function () {
         } else {
             largeArcFlag = diff > Math.PI ? 1 : 0;
         }
-        
-        this.lineTo(startX / scaleX, startY / scaleY);
+
+        // Transform is already applied, so temporarily remove since lineTo
+        // will apply it again.
+        var currentTransform = this.__transformMatrix;
+        this.resetTransform();
+        this.lineTo(startX, startY);
+        this.__transformMatrix = currentTransform;
+
         this.__addPathCommand(format("A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
             {
                 rx:radiusX, 
