@@ -6,6 +6,7 @@ import arcTo2 from './tests/arcTo2'
 import arcToScaled from './tests/arcToScaled'
 import emptyArc from './tests/emptyArc'
 import ellipse from './tests/ellipse'
+import ellipse2 from './tests/ellipse2'
 import fillstyle from './tests/fillstyle'
 import globalAlpha from './tests/globalalpha'
 import gradient from './tests/gradient'
@@ -28,6 +29,7 @@ const tests = {
     arcToScaled,
     emptyArc,
     ellipse,
+    ellipse2,
     fillstyle,
     globalAlpha,
     gradient,
