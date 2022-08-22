@@ -61,6 +61,21 @@ dom.wrapper; // a div with the svg as a child
 dom.svg; // the inline svg element
 ```
 
+Working with paths directly:
+
+```javascript
+import { Context, Path2D } from "svgcanvas";
+
+const ctx = new Context(500, 500);
+
+// Create a path:
+const path = new Path2D(ctx, "M 230 80 L 275 80 Z"); // or ctx.createPath("M 230 80 L 275 80 Z");
+ctx.stroke(path);
+
+// serialize your SVG
+const mySerializedSVG = ctx.getSerializedSvg();
+```
+
 ## Tests
 
 https://zenozeng.github.io/p5.js-svg/test/

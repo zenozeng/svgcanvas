@@ -20,6 +20,7 @@ import text from './tests/text'
 import tiger from './tests/tiger'
 import transform from './tests/transform'
 import pattern from "./tests/pattern";
+import path2D from './tests/path2D';
 
 const tests = [
     tiger,
@@ -42,7 +43,8 @@ const tests = [
     setLineDash,
     text,
     transform,
-    pattern
+    pattern,
+    path2D
 ];
 
 for (let fn of tests) {
