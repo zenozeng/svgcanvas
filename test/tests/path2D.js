@@ -15,4 +15,15 @@ export default function path2D(ctx) {
     ctx.stroke(path1);
     ctx.fillStyle = 'grey';
     ctx.fill(path1);
-};
+
+    ctx.translate(10, 25);
+    ctx.lineWidth = 10;
+    ctx.stroke(path1);
+
+    ctx.rotate(Math.PI / 4);
+    ctx.scale(1.5, 1.5);
+    ctx.translate(10, 25);
+
+    ctx.strokeStyle = 'blue';
+    ctx.stroke(path1);
+ };
