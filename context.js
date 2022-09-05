@@ -633,35 +633,32 @@ export default (function () {
      * Sets the stroke property on the current element
      */
     Context.prototype.stroke = function (path2d) {
-        if (path2d) {
-            var path = this.__createPathElement();
-            this.__applyStyleToElement(path, "stroke");
-            path.setAttribute("paint-order", "fill stroke markers");
-            path.setAttribute("d", path2d.__pathString);
-        } else {
-            if (this.__currentElement.nodeName === "path") {
-                this.__currentElement.setAttribute("paint-order", "fill stroke markers");
-            }
-            this.__applyCurrentDefaultPath();
-            this.__applyStyleToElement(this.__currentElement, "stroke");
-        }
+        this.__strokeOrFill(path2d, "stroke");
     };
 
     /**
      * Sets fill properties on the current element
      */
     Context.prototype.fill = function (path2d) {
+        this.__strokeOrFill(path2d, "fill");
+    };
+
+    Context.prototype.__strokeOrFill = function (path2d, action) {
         if (path2d) {
             var path = this.__createPathElement();
-            this.__applyStyleToElement(path, "fill");
+            this.__applyStyleToElement(path, action);
             path.setAttribute("paint-order", "fill stroke markers");
             path.setAttribute("d", path2d.__pathString);
+            this.__applyTransformation(path);
         } else {
             if (this.__currentElement.nodeName === "path") {
-                this.__currentElement.setAttribute("paint-order", "stroke fill markers");
+                this.__currentElement.setAttribute(
+                    "paint-order",
+                    "stroke fill markers"
+                );
             }
             this.__applyCurrentDefaultPath();
-            this.__applyStyleToElement(this.__currentElement, "fill");
+            this.__applyStyleToElement(this.__currentElement, action);
         }
     };
 
