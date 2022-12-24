@@ -19,7 +19,7 @@ export default function clip(ctx) {
   ctx.beginPath();
   ctx.rect(20, 30, 30, 10);
   ctx.rect(0, 0, 300, 300);
-  // ctx.stroke(); // Uncomment for debugging clip.
+  ctx.stroke();
   ctx.clip("evenodd");
 
   // Draw line.
