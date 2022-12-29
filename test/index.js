@@ -9,6 +9,7 @@ import ellipse2 from "./tests/ellipse2";
 import fillstyle from "./tests/fillstyle";
 import globalAlpha from "./tests/globalalpha";
 import gradient from "./tests/gradient";
+import image from "./tests/image";
 import linecap from "./tests/linecap";
 import linewidth from "./tests/linewidth";
 import scaledLine from "./tests/scaledLine";
@@ -36,6 +37,7 @@ const tests = [
   fillstyle,
   globalAlpha,
   gradient,
+  image,
   linecap,
   linewidth,
   scaledLine,

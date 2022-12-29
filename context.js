@@ -1128,15 +1128,14 @@ export default (function () {
       svgImage.setAttribute("height", dh);
       svgImage.setAttribute("preserveAspectRatio", "none");
 
-      if (sx || sy || sw !== image.width || sh !== image.height) {
-        //crop the image using a temporary canvas
-        canvas = this.__document.createElement("canvas");
-        canvas.width = dw;
-        canvas.height = dh;
-        context = canvas.getContext("2d");
-        context.drawImage(image, sx, sy, sw, sh, 0, 0, dw, dh);
-        image = canvas;
-      }
+      // Crop the image using a temporary canvas and convert to a bitmap
+      canvas = this.__document.createElement("canvas");
+      canvas.width = dw;
+      canvas.height = dh;
+      context = canvas.getContext("2d");
+      context.drawImage(image, sx, sy, sw, sh, 0, 0, dw, dh);
+      image = canvas;
+
       this.__applyTransformation(svgImage, matrix);
       svgImage.setAttributeNS(
         "http://www.w3.org/1999/xlink",
