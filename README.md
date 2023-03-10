@@ -80,6 +80,19 @@ const mySerializedSVG = ctx.getSerializedSvg();
 
 https://zenozeng.github.io/p5.js-svg/test/
 
+To run the testsuite:
+
+```
+npm run test
+```
+
+To debug tests in a browser:
+
+```
+open test/index.html
+npm run watch
+```
+
 ## License
 
 This library is licensed under the MIT license.

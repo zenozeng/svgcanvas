@@ -201,7 +201,8 @@ export default (function () {
   };
 
   /**
-   * Adds the arcTo to the current path
+   * Adds the arcTo to the current path. Based on Webkit implementation from
+   * https://github.com/WebKit/webkit/blob/main/Source/WebCore/platform/graphics/cairo/PathCairo.cpp
    *
    * @see http://www.w3.org/TR/2015/WD-2dcontext-20150514/#dom-context-2d-arcto
    */
@@ -232,67 +233,66 @@ export default (function () {
       return;
     }
 
-    // Otherwise, if the points (x0, y0), (x1, y1), and (x2, y2) all lie on a single straight line,
-    // then the method must add the point (x1, y1) to the subpath,
-    // and connect that point to the previous point (x0, y0) by a straight line.
-    var unit_vec_p1_p0 = normalize([x0 - x1, y0 - y1]);
-    var unit_vec_p1_p2 = normalize([x2 - x1, y2 - y1]);
-    if (
-      unit_vec_p1_p0[0] * unit_vec_p1_p2[1] ===
-      unit_vec_p1_p0[1] * unit_vec_p1_p2[0]
-    ) {
+    const p1p0 = [x0 - x1, y0 - y1];
+    const p1p2 = [x2 - x1, y2 - y1];
+    const p1p0_length = Math.hypot(p1p0[0], p1p0[1]);
+    const p1p2_length = Math.hypot(p1p2[0], p1p2[1]);
+    const cos_phi = (p1p0[0] * p1p2[0] + p1p0[1] * p1p2[1]) / (p1p0_length * p1p2_length);
+    // all points on a line logic
+    if (cos_phi == -1) {
       this.lineTo(x1, y1);
       return;
     }
+    if (cos_phi == 1) {
+      // add infinite far away point
+      const max_length = 65535;
+      const factor_max = max_length / p1p0_length;
+      const ep = [xp0 + factor_max * p1p0[0], y0 + factor_max * p1p0[1]];
+      this.lineTo(ep[0], ep[1]);
+      return;
+    }
 
-    // Otherwise, let The Arc be the shortest arc given by circumference of the circle that has radius radius,
-    // and that has one point tangent to the half-infinite line that crosses the point (x0, y0) and ends at the point (x1, y1),
-    // and that has a different point tangent to the half-infinite line that ends at the point (x1, y1), and crosses the point (x2, y2).
-    // The points at which this circle touches these two lines are called the start and end tangent points respectively.
+    const tangent = radius / Math.tan(Math.acos(cos_phi) / 2);
+    const factor_p1p0 = tangent / p1p0_length;
+    const t_p1p0 = [x1 + factor_p1p0 * p1p0[0], y1 + factor_p1p0 * p1p0[1]];
 
-    // note that both vectors are unit vectors, so the length is 1
-    var cos =
-      unit_vec_p1_p0[0] * unit_vec_p1_p2[0] +
-      unit_vec_p1_p0[1] * unit_vec_p1_p2[1];
-    var theta = Math.acos(Math.abs(cos));
+    let orth_p1p0 = [p1p0[1], -p1p0[0]];
+    const orth_p1p0_length = Math.hypot(orth_p1p0[0], orth_p1p0[1]);
+    const factor_ra = radius / orth_p1p0_length;
 
-    // Calculate origin
-    var unit_vec_p1_origin = normalize([
-      unit_vec_p1_p0[0] + unit_vec_p1_p2[0],
-      unit_vec_p1_p0[1] + unit_vec_p1_p2[1],
-    ]);
-    var len_p1_origin = radius / Math.sin(theta / 2);
-    var x = x1 + len_p1_origin * unit_vec_p1_origin[0];
-    var y = y1 + len_p1_origin * unit_vec_p1_origin[1];
+    // angle between orth_p1p0 and p1p2 to get the right vector orthographic to p1p0
+    const cos_alpha = (orth_p1p0[0] * p1p2[0] + orth_p1p0[1] * p1p2[1]) / (orth_p1p0_length * p1p2_length);
+    if (cos_alpha < 0) {
+      orth_p1p0 = [-orth_p1p0[0], -orth_p1p0[1]];
+    }
 
-    // Calculate start angle and end angle
-    // rotate 90deg clockwise (note that y axis points to its down)
-    var unit_vec_origin_start_tangent = [-unit_vec_p1_p0[1], unit_vec_p1_p0[0]];
-    // rotate 90deg counter clockwise (note that y axis points to its down)
-    var unit_vec_origin_end_tangent = [unit_vec_p1_p2[1], -unit_vec_p1_p2[0]];
-    var getAngle = function (vector) {
-      // get angle (clockwise) between vector and (1, 0)
-      var x = vector[0];
-      var y = vector[1];
-      if (y >= 0) {
-        // note that y axis points to its down
-        return Math.acos(x);
-      } else {
-        return -Math.acos(x);
-      }
-    };
-    var startAngle = getAngle(unit_vec_origin_start_tangent);
-    var endAngle = getAngle(unit_vec_origin_end_tangent);
+    const p = [t_p1p0[0] + factor_ra * orth_p1p0[0], t_p1p0[1] + factor_ra * orth_p1p0[1]];
 
-    // Connect the point (x0, y0) to the start tangent point by a straight line
-    this.lineTo(
-      x + unit_vec_origin_start_tangent[0] * radius,
-      y + unit_vec_origin_start_tangent[1] * radius
-    );
+    // calculate angles for addArc
+    orth_p1p0 = [-orth_p1p0[0], -orth_p1p0[1]];
+    let sa = Math.acos(orth_p1p0[0] / orth_p1p0_length);
+    if (orth_p1p0[1] < 0) {
+      sa = 2 * Math.PI - sa;
+    }
 
-    // Connect the start tangent point to the end tangent point by arc
-    // and adding the end tangent point to the subpath.
-    this.arc(x, y, radius, startAngle, endAngle);
+    // anticlockwise logic
+    let anticlockwise = false;
+
+    const factor_p1p2 = tangent / p1p2_length;
+    const t_p1p2 = [x1 + factor_p1p2 * p1p2[0], y1 + factor_p1p2 * p1p2[1]];
+    const orth_p1p2 = [t_p1p2[0] - p[0], t_p1p2[1] - p[1]];
+    const orth_p1p2_length = Math.hypot(orth_p1p2[0], orth_p1p2[1]);
+    let ea = Math.acos(orth_p1p2[0] / orth_p1p2_length);
+    if (orth_p1p2[1] < 0) {
+      ea = 2 * Math.PI - ea;
+    }
+    if (sa > ea && sa - ea < Math.PI)
+        anticlockwise = true;
+    if (sa < ea && ea - sa > Math.PI)
+        anticlockwise = true;
+
+    this.lineTo(t_p1p0[0], t_p1p0[1])
+    this.arc(p[0], p[1], radius, sa, ea, anticlockwise)
   };
 
   /**

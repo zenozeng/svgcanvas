@@ -1,6 +1,6 @@
 {
   "name": "@aha-app/svgcanvas",
-  "version": "2.5.0-a12",
+  "version": "2.5.0-a13",
   "description": "svgcanvas",
   "main": "dist/svgcanvas.js",
   "scripts": {
