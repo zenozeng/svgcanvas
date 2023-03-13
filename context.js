@@ -413,7 +413,7 @@ export default (function () {
                     //gradient
                     currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 } else if (style.apply.indexOf(type)!==-1 && style.svg !== value) {
-                    if ((style.svgAttr === "stroke" || style.svgAttr === "fill") && value.indexOf("rgba") !== -1) {
+                    if ((style.svgAttr === "stroke" || style.svgAttr === "fill") && value && value.indexOf("rgba") !== -1) {
                         //separate alpha value, since illustrator can't handle it
                         regex = /rgba\(\s*(\d*\.?\d+)\s*,\s*(\d*\.?\d+)\s*,\s*(\d*\.?\d+)\s*,\s*(\d?\.?\d*)\s*\)/gi;
                         matches = regex.exec(value);
