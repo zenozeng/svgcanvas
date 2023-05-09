@@ -989,6 +989,13 @@ export default (function () {
      *  Arc command!
      */
     Context.prototype.arc = function (x, y, radius, startAngle, endAngle, counterClockwise) {
+        x = x || 0;
+        y = y || 0;
+        radius = radius || 0;
+        startAngle = startAngle || 0;
+        endAngle = endAngle || 0;
+        counterClockwise = counterClockwise || 0;
+
         // in canvas no circle is drawn if no angle is provided.
         if (startAngle === endAngle) {
             return;
@@ -1021,7 +1028,7 @@ export default (function () {
         var scaleX = Math.hypot(this.__transformMatrix.a, this.__transformMatrix.b);
         var scaleY = Math.hypot(this.__transformMatrix.c, this.__transformMatrix.d);
 
-        this.lineTo(startX, startY);
+        this.lineTo(startX || 0, startY || 0);
         this.__addPathCommand(format("A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
             {
                 rx:radius * scaleX,
