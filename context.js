@@ -1088,11 +1088,11 @@ export default (function () {
 
         this.__addPathCommand(format("A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
             {
-                rx:radiusX, 
-                ry:radiusY, 
-                xAxisRotation:rotation*(180/Math.PI), 
-                largeArcFlag:largeArcFlag, 
-                sweepFlag:sweepFlag, 
+                rx:radiusX,
+                ry:radiusY,
+                xAxisRotation:rotation*(180/Math.PI),
+                largeArcFlag:largeArcFlag,
+                sweepFlag:sweepFlag,
                 endX:endX,
                 endY:endY
             }));
@@ -1326,7 +1326,7 @@ export default (function () {
      * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/translate
      */
     Context.prototype.translate = function (x, y) {
-        const matrix = this.getTransform().translate(x, y);
+        const matrix = this.getTransform().translate(x || 0, y || 0);
         this.setTransform(matrix);
     };
 
@@ -1346,7 +1346,7 @@ export default (function () {
     }
 
     /**
-     * 
+     *
      * @returns The scale component of the transform matrix as {x,y}.
      */
     Context.prototype.__getTransformScale = function() {
@@ -1357,7 +1357,7 @@ export default (function () {
     }
 
     /**
-     * 
+     *
      * @returns The rotation component of the transform matrix in radians.
      */
     Context.prototype.__getTransformRotation = function() {

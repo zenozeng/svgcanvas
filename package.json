@@ -1,7 +1,7 @@
 {
-  "name": "svgcanvas",
+  "name": "@symbolic/svgcanvas",
   "version": "2.5.0",
-  "description": "svgcanvas",
+  "description": "@symbolic/svgcanvas",
   "main": "dist/svgcanvas.js",
   "scripts": {
     "watch": "rollup -c -w",
@@ -9,16 +9,11 @@
     "prepublishOnly": "npm run build",
     "test": "karma start"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/zenozeng/svgcanvas.git"
-  },
   "keywords": [
     "canvas",
     "svg",
     "canvas2svg"
   ],
-  "author": "Zeno Zeng",
   "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.2",
