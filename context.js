@@ -396,18 +396,21 @@ export default (function () {
             value = this[keys[i]];
             if (style.apply) {
                 //is this a gradient or pattern?
-                if (value instanceof CanvasPattern) {
-                    //pattern
-                    if (value.__ctx) {
-                        //copy over defs
-                        for(nodeIndex = 0; nodeIndex < value.__ctx.__defs.childNodes.length; nodeIndex++){
-                          node = value.__ctx.__defs.childNodes[nodeIndex];
-                          id = node.getAttribute("id");
-                          this.__ids[id] = id;
-                          this.__defs.appendChild(node);
+                if (value instanceof CanvasPattern || value.constructor.name === 'CanvasPattern') {
+                    if (value.image) { //MODIFIED
+                        value = this.createPattern(value.image, null); //HINT pulls in original image ref from Konva
+                        //pattern
+                        if (value.__ctx) {
+                            //copy over defs
+                            for(nodeIndex = 0; nodeIndex < value.__ctx.__defs.childNodes.length; nodeIndex++){
+                              node = value.__ctx.__defs.childNodes[nodeIndex];
+                              id = node.getAttribute("id");
+                              this.__ids[id] = id;
+                              this.__defs.appendChild(node);
+                            }
                         }
+                        currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                     }
-                    currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 }
                 else if (value instanceof CanvasGradient) {
                     //gradient
