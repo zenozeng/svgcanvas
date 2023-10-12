@@ -396,20 +396,24 @@ export default (function () {
             value = this[keys[i]];
             if (style.apply) {
                 //is this a gradient or pattern?
-                if (value instanceof CanvasPattern) {
-                    //pattern
-                    if (value.__ctx) {
-                        //copy over defs
-                        for(nodeIndex = 0; nodeIndex < value.__ctx.__defs.childNodes.length; nodeIndex++){
-                          node = value.__ctx.__defs.childNodes[nodeIndex];
-                          id = node.getAttribute("id");
-                          this.__ids[id] = id;
-                          this.__defs.appendChild(node);
+                if (value instanceof CanvasPattern || value.constructor.name === 'CanvasPattern') {
+                    if (value.image) { //MODIFIED
+                        value = this.createPattern(value.image, null); //HINT pulls in original image ref from Konva
+                        //pattern
+                        if (value.__ctx) {
+                            //copy over defs
+                            for(nodeIndex = 0; nodeIndex < value.__ctx.__defs.childNodes.length; nodeIndex++){
+                              node = value.__ctx.__defs.childNodes[nodeIndex];
+                              id = node.getAttribute("id");
+                              this.__ids[id] = id;
+                              this.__defs.appendChild(node);
+                            }
                         }
+                        currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                     }
-                    currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 }
-                else if (value instanceof CanvasGradient) {
+                else if (value instanceof CanvasGradient || value.constructor.name === 'CanvasGradient') {
+                    console.log(value);
                     //gradient
                     currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 } else if (style.apply.indexOf(type)!==-1 && style.svg !== value) {
@@ -989,6 +993,13 @@ export default (function () {
      *  Arc command!
      */
     Context.prototype.arc = function (x, y, radius, startAngle, endAngle, counterClockwise) {
+        x = x || 0;
+        y = y || 0;
+        radius = radius || 0;
+        startAngle = startAngle || 0;
+        endAngle = endAngle || 0;
+        counterClockwise = counterClockwise || 0;
+
         // in canvas no circle is drawn if no angle is provided.
         if (startAngle === endAngle) {
             return;
@@ -1021,7 +1032,7 @@ export default (function () {
         var scaleX = Math.hypot(this.__transformMatrix.a, this.__transformMatrix.b);
         var scaleY = Math.hypot(this.__transformMatrix.c, this.__transformMatrix.d);
 
-        this.lineTo(startX, startY);
+        this.lineTo(startX || 0, startY || 0);
         this.__addPathCommand(format("A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
             {
                 rx:radius * scaleX,
@@ -1088,11 +1099,11 @@ export default (function () {
 
         this.__addPathCommand(format("A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
             {
-                rx:radiusX, 
-                ry:radiusY, 
-                xAxisRotation:rotation*(180/Math.PI), 
-                largeArcFlag:largeArcFlag, 
-                sweepFlag:sweepFlag, 
+                rx:radiusX,
+                ry:radiusY,
+                xAxisRotation:rotation*(180/Math.PI),
+                largeArcFlag:largeArcFlag,
+                sweepFlag:sweepFlag,
                 endX:endX,
                 endY:endY
             }));
@@ -1326,7 +1337,7 @@ export default (function () {
      * @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/translate
      */
     Context.prototype.translate = function (x, y) {
-        const matrix = this.getTransform().translate(x, y);
+        const matrix = this.getTransform().translate(x || 0, y || 0);
         this.setTransform(matrix);
     };
 
@@ -1346,7 +1357,7 @@ export default (function () {
     }
 
     /**
-     * 
+     *
      * @returns The scale component of the transform matrix as {x,y}.
      */
     Context.prototype.__getTransformScale = function() {
@@ -1357,7 +1368,7 @@ export default (function () {
     }
 
     /**
-     * 
+     *
      * @returns The rotation component of the transform matrix in radians.
      */
     Context.prototype.__getTransformRotation = function() {
