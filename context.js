@@ -412,7 +412,8 @@ export default (function () {
                         currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                     }
                 }
-                else if (value instanceof CanvasGradient) {
+                else if (value instanceof CanvasGradient || value.constructor.name === 'CanvasGradient') {
+                    console.log(value);
                     //gradient
                     currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
                 } else if (style.apply.indexOf(type)!==-1 && style.svg !== value) {
