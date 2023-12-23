@@ -675,6 +675,13 @@ export default (function () {
     this.__currentDefaultPath.rect(x, y, width, height);
   };
 
+  Context.prototype.roundRect = function (x, y, width, height, radii) {
+    if (!this.__currentDefaultPath) {
+      this.beginPath();
+    }
+    this.__currentDefaultPath.roundRect(x, y, width, height, radii);
+  };
+
   Context.prototype.bezierCurveTo = function (cp1x, cp1y, cp2x, cp2y, x, y) {
     if (!this.__currentDefaultPath) {
       this.beginPath();

@@ -22,6 +22,7 @@ import tiger from './tests/tiger'
 import transform from './tests/transform'
 import pattern from "./tests/pattern";
 import path2D from './tests/path2D';
+import roundRect from './tests/roundRect'
 
 const tests = {
     tiger,
@@ -45,7 +46,8 @@ const tests = {
     text,
     transform,
     pattern,
-    path2D
+    path2D,
+    roundRect,
 };
 
 const config = {

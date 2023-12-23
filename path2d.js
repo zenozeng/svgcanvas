@@ -1,4 +1,5 @@
 import { format } from "./utils";
+import roundRectPolyfill from "./roundRect";
 
 export default (function () {
   "use strict";
@@ -89,6 +90,11 @@ export default (function () {
     this.lineTo(x, y + height);
     this.lineTo(x, y);
   };
+
+  /**
+   *  Adds a rounded rectangle to the path.
+   */
+  Path2D.prototype.roundRect = roundRectPolyfill;
 
   /**
    * Add a bezier command
@@ -287,9 +293,9 @@ export default (function () {
       ea = 2 * Math.PI - ea;
     }
     if (sa > ea && sa - ea < Math.PI)
-        anticlockwise = true;
+      anticlockwise = true;
     if (sa < ea && ea - sa > Math.PI)
-        anticlockwise = true;
+      anticlockwise = true;
 
     this.lineTo(t_p1p0[0], t_p1p0[1])
     this.arc(p[0], p[1], radius, sa, ea, anticlockwise)
@@ -328,9 +334,9 @@ export default (function () {
         (2 * Math.PI);
     }
     var endX =
-        x +
-        Math.cos(-rotation) * radiusX * Math.cos(endAngle) +
-        Math.sin(-rotation) * radiusY * Math.sin(endAngle),
+      x +
+      Math.cos(-rotation) * radiusX * Math.cos(endAngle) +
+      Math.sin(-rotation) * radiusY * Math.sin(endAngle),
       endY =
         y -
         Math.sin(-rotation) * radiusX * Math.cos(endAngle) +

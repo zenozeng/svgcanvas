@@ -23,6 +23,7 @@ import transform from "./tests/transform";
 import pattern from "./tests/pattern";
 import path2D from "./tests/path2D";
 import clip from "./tests/clip";
+import roundRect from "./tests/roundRect";
 
 const tests = [
   tiger,
@@ -49,6 +50,7 @@ const tests = [
   transform,
   pattern,
   path2D,
+  roundRect,
 ];
 
 for (let fn of tests) {
