@@ -1,5 +1,7 @@
 # SVGCanvas
 
+** Aha! note: the current branch for all builds is `issue-fill-path` **
+
 Draw on SVG using Canvas's 2D Context API. A maintained fork of
 [gliffy's canvas2svg](https://github.com/gliffy/canvas2svg).
 
