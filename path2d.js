@@ -22,6 +22,7 @@ export default (function () {
     }
 
     this.ctx = ctx;
+    this.__subPaths = []; // Array of path string/transform pairs.
     this.__currentPosition = { x: undefined, y: undefined };
   };
 
@@ -29,18 +30,19 @@ export default (function () {
     return this.ctx.__matrixTransform(x, y);
   };
 
-  Path2D.prototype.addPath = function (path, transform) {
-    if (transform)
-      console.error("transform argument to addPath is not supported");
-
-    this.__pathString = this.__pathString + " " + path;
+  Path2D.prototype.addPath = function (path, transform = undefined) {
+    this.__subPaths.push({ path: path, transform: transform });
   };
+
+  Path2D.prototype.appendPath = function (path) {
+    this.__pathString = this.__pathString + " " + path;
+  }
 
   /**
    * Closes the current path
    */
   Path2D.prototype.closePath = function () {
-    this.addPath("Z");
+    this.appendPath("Z");
   };
 
   /**
@@ -50,7 +52,7 @@ export default (function () {
   Path2D.prototype.moveTo = function (x, y) {
     // creates a new subpath with the given point
     this.__currentPosition = { x: x, y: y };
-    this.addPath(
+    this.appendPath(
       format("M {x} {y}", {
         x: this.__matrixTransform(x, y).x,
         y: this.__matrixTransform(x, y).y,
@@ -64,14 +66,14 @@ export default (function () {
   Path2D.prototype.lineTo = function (x, y) {
     this.__currentPosition = { x: x, y: y };
     if (this.__pathString.indexOf("M") > -1) {
-      this.addPath(
+      this.appendPath(
         format("L {x} {y}", {
           x: this.__matrixTransform(x, y).x,
           y: this.__matrixTransform(x, y).y,
         })
       );
     } else {
-      this.addPath(
+      this.appendPath(
         format("M {x} {y}", {
           x: this.__matrixTransform(x, y).x,
           y: this.__matrixTransform(x, y).y,
@@ -101,7 +103,7 @@ export default (function () {
    */
   Path2D.prototype.bezierCurveTo = function (cp1x, cp1y, cp2x, cp2y, x, y) {
     this.__currentPosition = { x: x, y: y };
-    this.addPath(
+    this.appendPath(
       format("C {cp1x} {cp1y} {cp2x} {cp2y} {x} {y}", {
         cp1x: this.__matrixTransform(cp1x, cp1y).x,
         cp1y: this.__matrixTransform(cp1x, cp1y).y,
@@ -118,7 +120,7 @@ export default (function () {
    */
   Path2D.prototype.quadraticCurveTo = function (cpx, cpy, x, y) {
     this.__currentPosition = { x: x, y: y };
-    this.addPath(
+    this.appendPath(
       format("Q {cpx} {cpy} {x} {y}", {
         cpx: this.__matrixTransform(cpx, cpy).x,
         cpy: this.__matrixTransform(cpx, cpy).y,
@@ -180,7 +182,7 @@ export default (function () {
     );
 
     this.lineTo(startX, startY);
-    this.addPath(
+    this.appendPath(
       format(
         "A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
         {
@@ -370,7 +372,7 @@ export default (function () {
     this.lineTo(startX, startY);
     this.ctx.__transformMatrix = currentTransform;
 
-    this.addPath(
+    this.appendPath(
       format(
         "A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
         {
