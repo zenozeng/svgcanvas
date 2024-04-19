@@ -79,9 +79,8 @@ export default function path2D(ctx) {
   ctx.fill(path2);
   ctx.strokeStyle = "red";
 
-  let pNext = makePath(ctx);
-  // add first path, transform path, twice size, move 100,10
-  pNext.addPath(path2, new DOMMatrix([
+  let scaledPath = makePath(ctx);
+  scaledPath.addPath(path2, new DOMMatrix([
     2, 0,
     0, 1,
     0,
@@ -89,6 +88,6 @@ export default function path2D(ctx) {
   ]));
 
   ctx.scale(1 / 2, 1); // Reset scale so that stroke is not scaled.
-  ctx.stroke(pNext);
+  ctx.stroke(scaledPath);
   ctx.restore();
 }

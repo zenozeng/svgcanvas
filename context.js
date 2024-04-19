@@ -779,6 +779,8 @@ export default (function () {
       var pathElement = this.__createPathElement();
       this.__applyStyleToElement(pathElement, action);
       pathElement.setAttribute("paint-order", "fill stroke markers");
+      // This is a hack to replicate the behavior of Fabric. 
+      pathElement.setAttribute("vector-effect", "non-scaling-stroke");
       pathElement.setAttribute("d", path.__pathString);
       if (path2d) {
         this.__applyTransformation(pathElement);
@@ -790,6 +792,7 @@ export default (function () {
         var pathElement = this.__createPathElement();
         this.__applyStyleToElement(pathElement, action);
         pathElement.setAttribute("paint-order", "fill stroke markers");
+        pathElement.setAttribute("vector-effect", "non-scaling-stroke");
         pathElement.setAttribute("d", subPath.path.__pathString);
         if (subPath.transform) {
           this.__applyTransformation(pathElement, this.getTransform().multiply(subPath.transform));
