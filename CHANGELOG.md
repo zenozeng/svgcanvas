@@ -1,5 +1,9 @@
 ## CHANGELOG
 
+### v2.6.0
+
+- feat: roundRect
+
 ### v2.5.0
 
 - fix: ellipse translate and rotate problem ([Chris Waters](https://github.com/k1w1)) https://github.com/zenozeng/svgcanvas/pull/19

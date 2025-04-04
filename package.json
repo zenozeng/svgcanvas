@@ -1,6 +1,6 @@
 {
   "name": "svgcanvas",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "svgcanvas",
   "main": "dist/svgcanvas.js",
   "scripts": {
@@ -30,8 +30,8 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^9.2.1",
-    "puppeteer": "^13.5.0",
+    "mocha": "^11.1.0",
+    "puppeteer": "^24.6.0",
     "rollup": "^2.67.0"
   }
 }

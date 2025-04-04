@@ -788,6 +788,30 @@ export default (function () {
         this.closePath();
     };
 
+    /**
+     * Adds a rectangle to the path.
+     * https://github.com/processing/p5.js/commit/a975515e9ea0a43d89ed522f281d8c9433ede96c
+     */
+    Context.prototype.roundRect = function (x, y, w, h, radii) {
+        if (this.__currentElement.nodeName !== "path") {
+            this.beginPath();
+        }
+        let tl, tr, br, bl;
+        if (typeof radii == 'number') {
+            tl = radii;
+            tr = radii;
+            br = radii;
+            bl = radii;
+        } else {
+            [tl, tr, br, bl] = radii;
+        }
+        this.moveTo(x + tl, y);
+        this.arcTo(x + w, y, x + w, y + h, tr);
+        this.arcTo(x + w, y + h, x, y + h, br);
+        this.arcTo(x, y + h, x, y, bl);
+        this.arcTo(x, y, x + w, y, tl);
+        this.closePath();
+    };
 
     /**
      * adds a rectangle element
