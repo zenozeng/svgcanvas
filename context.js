@@ -77,6 +77,10 @@ export default (function () {
         return mapping[textBaseline] || mapping.alphabetic;
     }
 
+    function clamp (num, min, max) {
+        return Math.min(Math.max(num, min), max)
+    }
+
     // Unpack entities lookup where the numbers are in radix 32 to reduce the size
     // entity mapping courtesy of tinymce
     namedEntities = createNamedToNumberedLookup(
@@ -690,6 +694,7 @@ export default (function () {
             return;
         }
 
+
         // Otherwise, if the points (x0, y0), (x1, y1), and (x2, y2) all lie on a single straight line,
         // then the method must add the point (x1, y1) to the subpath,
         // and connect that point to the previous point (x0, y0) by a straight line.
@@ -704,12 +709,14 @@ export default (function () {
         // and that has one point tangent to the half-infinite line that crosses the point (x0, y0) and ends at the point (x1, y1),
         // and that has a different point tangent to the half-infinite line that ends at the point (x1, y1), and crosses the point (x2, y2).
         // The points at which this circle touches these two lines are called the start and end tangent points respectively.
-
         // note that both vectors are unit vectors, so the length is 1
         var cos = (unit_vec_p1_p0[0] * unit_vec_p1_p2[0] + unit_vec_p1_p0[1] * unit_vec_p1_p2[1]);
-        var theta = Math.acos(Math.abs(cos));
+        cos = clamp(-1, cos, 1)
 
         // Calculate origin
+        var theta = Math.acos(cos);
+
+        // Arc center, along the angle bisector.
         var unit_vec_p1_origin = normalize([
             unit_vec_p1_p0[0] + unit_vec_p1_p2[0],
             unit_vec_p1_p0[1] + unit_vec_p1_p2[1]
@@ -718,37 +725,27 @@ export default (function () {
         var x = x1 + len_p1_origin * unit_vec_p1_origin[0];
         var y = y1 + len_p1_origin * unit_vec_p1_origin[1];
 
-        // Calculate start angle and end angle
-        // rotate 90deg clockwise (note that y axis points to its down)
-        var unit_vec_origin_start_tangent = [
-            -unit_vec_p1_p0[1],
-            unit_vec_p1_p0[0]
-        ];
-        // rotate 90deg counter clockwise (note that y axis points to its down)
-        var unit_vec_origin_end_tangent = [
-            unit_vec_p1_p2[1],
-            -unit_vec_p1_p2[0]
-        ];
+        // Angles from the center to the start (incoming edge) and end (outgoing edge) tangent points.
+        var len_p1_tangent = radius / Math.tan(theta / 2);
+
         var getAngle = function (vector) {
+            var vectorX = vector[0];
+            var vectorY = vector[1];
+
             // get angle (clockwise) between vector and (1, 0)
-            var x = vector[0];
-            var y = vector[1];
-            if (y >= 0) { // note that y axis points to its down
-                return Math.acos(x);
-            } else {
-                return -Math.acos(x);
-            }
+            return Math.atan2(
+                (y1 + vectorY * len_p1_tangent) - y,
+                (x1 + vectorX * len_p1_tangent) - x
+            );
         };
-        var startAngle = getAngle(unit_vec_origin_start_tangent);
-        var endAngle = getAngle(unit_vec_origin_end_tangent);
 
-        // Connect the point (x0, y0) to the start tangent point by a straight line
-        this.lineTo(x + unit_vec_origin_start_tangent[0] * radius,
-                    y + unit_vec_origin_start_tangent[1] * radius);
+        var startAngle = getAngle(unit_vec_p1_p0)
+        var endAngle = getAngle(unit_vec_p1_p2)
 
-        // Connect the start tangent point to the end tangent point by arc
-        // and adding the end tangent point to the subpath.
-        this.arc(x, y, radius, startAngle, endAngle);
+        // The corner is always the minor arc; take the shorter signed sweep direction.
+        var counterClockwise = Math.atan2(Math.sin(endAngle - startAngle), Math.cos(endAngle - startAngle)) < 0;
+
+        this.arc(x, y, radius, startAngle, endAngle, counterClockwise);
     };
 
     /**
@@ -1045,6 +1042,11 @@ export default (function () {
         var scaleX = Math.hypot(this.__transformMatrix.a, this.__transformMatrix.b);
         var scaleY = Math.hypot(this.__transformMatrix.c, this.__transformMatrix.d);
 
+        // A mirrored transform (negative determinant) reverses visual winding.
+        var determinant = this.__transformMatrix.a * this.__transformMatrix.d -
+                  this.__transformMatrix.b * this.__transformMatrix.c;
+        if (determinant < 0) { sweepFlag = sweepFlag ? 0 : 1; }
+
         this.lineTo(startX, startY);
         this.__addPathCommand(format("A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
             {
@@ -1112,11 +1114,11 @@ export default (function () {
 
         this.__addPathCommand(format("A {rx} {ry} {xAxisRotation} {largeArcFlag} {sweepFlag} {endX} {endY}",
             {
-                rx:radiusX, 
-                ry:radiusY, 
-                xAxisRotation:rotation*(180/Math.PI), 
-                largeArcFlag:largeArcFlag, 
-                sweepFlag:sweepFlag, 
+                rx:radiusX,
+                ry:radiusY,
+                xAxisRotation:rotation*(180/Math.PI),
+                largeArcFlag:largeArcFlag,
+                sweepFlag:sweepFlag,
                 endX:endX,
                 endY:endY
             }));
@@ -1370,7 +1372,7 @@ export default (function () {
     }
 
     /**
-     * 
+     *
      * @returns The scale component of the transform matrix as {x,y}.
      */
     Context.prototype.__getTransformScale = function() {
@@ -1381,7 +1383,7 @@ export default (function () {
     }
 
     /**
-     * 
+     *
      * @returns The rotation component of the transform matrix in radians.
      */
     Context.prototype.__getTransformRotation = function() {
